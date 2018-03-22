@@ -19,5 +19,3 @@ python HMM.py
 #reference
 * 维特比算法：http://zh.wikipedia.org/wiki/%E7%BB%B4%E7%89%B9%E6%AF%94%E7%AE%97%E6%B3%95
 * https://github.com/fxsjy/finalseg
-
-good！
