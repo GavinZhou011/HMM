@@ -45,27 +45,19 @@ def cut(sentence):
 if __name__ == "__main__":
     test_str = "长春市长春节讲话。"
     prob, pos_list = cut(test_str)
-    print()
-    test_str
-    print()
-    pos_list
+    print(test_str)
+    print(pos_list)
     test_str = "他说的确实在理."
     prob, pos_list = cut(test_str)
-    print()
-    test_str
-    print()
-    pos_list
+    print(test_str)
+    print(pos_list)
 
     test_str = "毛主席万岁。"
     prob, pos_list = cut(test_str)
-    print()
-    test_str
-    print()
-    pos_list
+    print(test_str)
+    print(pos_list)
 
     test_str = "我有一台电脑。"
     prob, pos_list = cut(test_str)
-    print()
-    test_str
-    print()
-    pos_list
+    print(test_str)
+    print(pos_list)

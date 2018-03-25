@@ -51,12 +51,11 @@ def getList(input_str):
 
 
 def Output():
-    start_fp = open(PROB_START, 'w')
-    emit_fp = open(PROB_EMIT, 'w')
-    trans_fp = open(PROB_TRANS, 'w')
+    start_fp = open(PROB_START, 'w', encoding='UTF-8')
+    emit_fp = open(PROB_EMIT, 'w', encoding='UTF-8')
+    trans_fp = open(PROB_TRANS, 'w', encoding='UTF-8')
 
-    print()
-    "len(word_set) = %s " % (len(word_set))
+    print("len(word_set) = %s " % (len(word_set)))
     for key in Pi_dic:
         '''
         if Pi_dic[key] != 0:
@@ -98,19 +97,18 @@ def main():
     if len(sys.argv) != 2:
         print("Usage [%s] [input_data] " % (sys.argv[0]), file=sys.stderr)
         sys.exit(0)
-    ifp = open(sys.argv[1])
+    ifp = open(sys.argv[1], encoding='UTF-8')
     init()
     global word_set
     global line_num
     for line in ifp:
         line_num += 1
         if line_num % 10000 == 0:
-            print()
-            line_num
+            print(line_num)
 
         line = line.strip()
         if not line: continue
-        line = line.decode("utf-8", "ignore")
+        #line = line.decode("utf-8", "ignore")
 
         word_list = []
         for i in range(len(line)):
@@ -124,7 +122,7 @@ def main():
             line_state.extend(getList(item))
         # pdb.set_trace()
         if len(word_list) != len(line_state):
-            print("[line_num = %d][line = %s]" % (line_num, line.endoce("utf-8", 'ignore')), file=sys.stderr)
+            print("[line_num = %d][line = %s]" % (line_num, line.encode("utf-8", 'ignore')), file=sys.stderr)
         else:
             for i in range(len(line_state)):
                 if i == 0:
