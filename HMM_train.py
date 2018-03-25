@@ -1,8 +1,10 @@
 #!/usr/bin/python
-#-*-coding:utf-8
+# -*-coding:utf-8
+
 import sys
 import math
 import pdb
+
 state_M = 4
 word_N = 0
 
@@ -11,7 +13,7 @@ B_dic = {}
 Count_dic = {}
 Pi_dic = {}
 word_set = set()
-state_list = ['B','M','E','S']
+state_list = ['B', 'M', 'E', 'S']
 line_num = -1
 
 INPUT_DATA = "RenMinData.txt_utf8"
@@ -32,26 +34,29 @@ def init():
         B_dic[state] = {}
         Count_dic[state] = 0
 
+
 def getList(input_str):
     outpout_str = []
     if len(input_str) == 1:
         outpout_str.append('S')
     elif len(input_str) == 2:
-        outpout_str = ['B','E']
+        outpout_str = ['B', 'E']
     else:
-        M_num = len(input_str) -2
+        M_num = len(input_str) - 2
         M_list = ['M'] * M_num
         outpout_str.append('B')
         outpout_str.extend(M_list)
         outpout_str.append('S')
     return outpout_str
 
-def Output():
-    start_fp = file(PROB_START,'w')
-    emit_fp = file(PROB_EMIT,'w')
-    trans_fp = file(PROB_TRANS,'w')
 
-    print "len(word_set) = %s " % (len(word_set))
+def Output():
+    start_fp = open(PROB_START, 'w')
+    emit_fp = open(PROB_EMIT, 'w')
+    trans_fp = open(PROB_TRANS, 'w')
+
+    print()
+    "len(word_set) = %s " % (len(word_set))
     for key in Pi_dic:
         '''
         if Pi_dic[key] != 0:
@@ -60,7 +65,7 @@ def Output():
             Pi_dic[key] = 0
         '''
         Pi_dic[key] = Pi_dic[key] * 1.0 / line_num
-    print >>start_fp,Pi_dic
+    print(Pi_dic, file=start_fp)
 
     for key in A_dic:
         for key1 in A_dic[key]:
@@ -71,7 +76,7 @@ def Output():
                 A_dic[key][key1] = 0
             '''
             A_dic[key][key1] = A_dic[key][key1] / Count_dic[key]
-    print >>trans_fp,A_dic
+    print(A_dic, file=trans_fp)
 
     for key in B_dic:
         for word in B_dic[key]:
@@ -83,7 +88,7 @@ def Output():
             '''
             B_dic[key][word] = B_dic[key][word] / Count_dic[key]
 
-    print >> emit_fp,B_dic
+    print(B_dic, file=emit_fp)
     start_fp.close()
     emit_fp.close()
     trans_fp.close()
@@ -91,48 +96,50 @@ def Output():
 
 def main():
     if len(sys.argv) != 2:
-        print >> stderr,"Usage [%s] [input_data] " % (sys.argv[0])
+        print("Usage [%s] [input_data] " % (sys.argv[0]), file=sys.stderr)
         sys.exit(0)
-    ifp = file(sys.argv[1])
+    ifp = open(sys.argv[1])
     init()
     global word_set
     global line_num
     for line in ifp:
         line_num += 1
         if line_num % 10000 == 0:
-            print line_num
+            print()
+            line_num
 
         line = line.strip()
-        if not line:continue
-        line = line.decode("utf-8","ignore")
+        if not line: continue
+        line = line.decode("utf-8", "ignore")
 
         word_list = []
         for i in range(len(line)):
-            if line[i] == " ":continue
+            if line[i] == " ": continue
             word_list.append(line[i])
         word_set = word_set | set(word_list)
-
 
         lineArr = line.split(" ")
         line_state = []
         for item in lineArr:
             line_state.extend(getList(item))
-        #pdb.set_trace()
+        # pdb.set_trace()
         if len(word_list) != len(line_state):
-            print >> sys.stderr,"[line_num = %d][line = %s]" % (line_num, line.endoce("utf-8",'ignore'))
+            print("[line_num = %d][line = %s]" % (line_num, line.endoce("utf-8", 'ignore')), file=sys.stderr)
         else:
             for i in range(len(line_state)):
                 if i == 0:
                     Pi_dic[line_state[0]] += 1
                     Count_dic[line_state[0]] += 1
                 else:
-                    A_dic[line_state[i-1]][line_state[i]] += 1
+                    A_dic[line_state[i - 1]][line_state[i]] += 1
                     Count_dic[line_state[i]] += 1
-                    if not B_dic[line_state[i]].has_key(word_list[i]):
+                    if word_list[i] not in B_dic[line_state[i]]:
                         B_dic[line_state[i]][word_list[i]] = 0.0
                     else:
                         B_dic[line_state[i]][word_list[i]] += 1
     Output()
     ifp.close()
+
+
 if __name__ == "__main__":
     main()
