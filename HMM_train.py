@@ -2,8 +2,8 @@
 # -*-coding:utf-8
 
 import sys
-import math
-import pdb
+#import math
+#import pdb
 
 state_M = 4
 word_N = 0
